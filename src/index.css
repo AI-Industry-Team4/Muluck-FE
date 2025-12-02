@@ -1,5 +1,12 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-brand: #01bf99;
+  --color-brand-light: #e2f4e2;
+
+  --font-om: 'OwnglyphMinini', sans-serif;
+}
+
 @font-face {
   font-family: 'OwnglyphMinini';
   src: url('/src/assets/fonts/OwnglyphMinini.ttf') format('truetype');
