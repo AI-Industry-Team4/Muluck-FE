@@ -1,1 +1,20 @@
 @import 'tailwindcss';
+
+@font-face {
+  font-family: 'OwnglyphMinini';
+  src: url('/src/assets/fonts/OwnglyphMinini.ttf') format('truetype');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'OwnglyphMinini', sans-serif;
+  background-color: #dcdcdc;
+}
+
+#root {
+  min-height: 100vh;
+}
