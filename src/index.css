@@ -1,5 +1,52 @@
 @import 'tailwindcss';
 
+@theme {
+  /* COLORS */
+  --color-white: #ffffff;
+  --color-gray-100: #888888;
+  --color-gray-200: #656565;
+  --color-gray-300: #272727;
+  --color-percent: #ffaaaa;
+  --color-blue: #676eff;
+  --color-red: #ff2f2f;
+
+  /* BRAND COLORS */
+  --color-brand: #01bf99;
+  --color-brand-light: #e2f4e2;
+
+  /* FONT FAMILY */
+  --font-om: 'Ownglyph minini', sans-serif;
+
+  /* TEXT STYLES */
+  --text-head-36: 36px;
+  --leading-head-36: 20.416px;
+  --tracking-head-36: -0.379px;
+
+  --text-body-20: 20px;
+  --leading-body-20: 20px;
+  --tracking-body-20: -0.379px;
+
+  --text-head-25: 25px;
+  --leading-head-25: 25px;
+  --tracking-head-25: -0.379px;
+
+  --text-sub-14: 14px;
+  --leading-sub-14: 14px;
+  --tracking-sub-14: -0.379px;
+
+  --text-body-18: 18px;
+  --leading-body-18: 18px;
+  --tracking-body-18: -0.379px;
+
+  --text-sub-12: 12px;
+  --leading-sub-12: 12px;
+  --tracking-sub-12: -0.379px;
+
+  --text-sub-10: 10px;
+  --leading-sub-10: 10px;
+  --tracking-sub-10: -0.379px;
+}
+
 @font-face {
   font-family: 'OwnglyphMinini';
   src: url('/src/assets/fonts/OwnglyphMinini.ttf') format('truetype');
