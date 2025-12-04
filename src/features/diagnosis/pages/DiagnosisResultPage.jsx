@@ -61,7 +61,6 @@ export default function DiagnosisResultPage() {
   // 진단 케이스 (나중에 API 응답으로 교체)
   const caseType = 'INCONCLUSIVE_LOW'
 
-
   return (
     <div className='py-[52px] flex flex-col h-full'>
       {/* 헤더 */}
@@ -126,10 +125,10 @@ function renderResultSection(caseType, onSaveClick) {
       return <DiseaseResultCertain onSaveClick={onSaveClick} />
 
     case 'SUSPICIOUS':
-      return <DiseaseResultSuspicious />
+      return <DiseaseResultSuspicious onSaveClick={onSaveClick} />
 
     case 'NO_DISEASE':
-      return <DiseaseResultNoDisease />
+      return <DiseaseResultNoDisease onSaveClick={onSaveClick} />
 
     case 'INCONCLUSIVE_LOW':
       return <DiseaseResultInconclusiveLow />

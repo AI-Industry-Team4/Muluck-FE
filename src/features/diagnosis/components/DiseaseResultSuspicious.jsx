@@ -3,7 +3,7 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultSuspicious() {
+export default function DiseaseResultSuspicious({ onSaveClick }) {
   // TODO: 실제 데이터로 교체
   const diseases = ['질병1', '질병2', '질병3']
   const confidences = [0, 0, 0]
@@ -75,7 +75,7 @@ export default function DiseaseResultSuspicious() {
         size='small'
         variant='primary'
         className='self-center mt-[42px]'
-        onClick={() => console.log('저장하기 클릭')}
+        onClick={onSaveClick}
       />
     </div>
   )
