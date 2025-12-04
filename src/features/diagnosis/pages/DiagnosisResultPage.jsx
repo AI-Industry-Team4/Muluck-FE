@@ -36,7 +36,7 @@ export default function DiagnosisResultPage() {
   }
 
   // 진단 케이스 (나중에 API 응답으로 교체)
-  const caseType = 'CERTAIN_DISEASE'
+  const caseType = 'SUSPICIOUS'
 
   return (
     <div className='py-[52px] flex flex-col h-full'>
