@@ -11,7 +11,7 @@ const Search = ({
       className={`flex pl-[13px] items-center h-[45px] ${sizeClass} border border-brand rounded-[10px]`}
     >
       <input placeholder={label} className='w-[250px] outline-none'></input>
-      <img src={search} onClick={onClick} className='w-6 h-6' />
+      <img src={search} onClick={onClick} className='w-6 h-6 cursor-pointer' />
     </div>
   )
 }

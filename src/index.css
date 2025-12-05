@@ -52,8 +52,13 @@
   src: url('/src/assets/fonts/OwnglyphMinini.ttf') format('truetype');
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
 }
 
 body {
