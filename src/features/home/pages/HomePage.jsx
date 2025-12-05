@@ -95,7 +95,7 @@ export default function HomePage() {
       <CompleteModal
         isOpen={isCompleteModalOpen}
         onClose={handleCloseCompleteModal}
-        title='폴더 추가되었습니다!'
+        title='폴더가 추가되었습니다!'
       />
     </div>
   )
