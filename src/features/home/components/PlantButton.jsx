@@ -1,6 +1,6 @@
 import { Body20 } from '@/shared/typography'
 
-const PlantButton = ({ label, onClick }) => {
+export default function PlantButton({ label, onClick }) {
   return (
     <button
       onClick={onClick}
@@ -10,5 +10,3 @@ const PlantButton = ({ label, onClick }) => {
     </button>
   )
 }
-
-export default PlantButton
