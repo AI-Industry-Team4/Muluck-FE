@@ -3,13 +3,16 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultSuspicious({ onSaveClick }) {
-  // TODO: 실제 데이터로 교체
-  const diseases = ['질병1', '질병2', '질병3']
-  const confidences = [0, 0, 0]
-  const descriptions = ['설명1', '설명2', '설명3']
-  const causes = ['원인 1', '원인 2', '원인 3']
-  const guides = ['가이드 1', '가이드 2', '가이드 3']
+export default function DiseaseResultSuspicious({
+  onSaveClick,
+  candidates = [],
+  primaryDisease = null,
+}) {
+  const diseases = candidates.map((c) => c.diseaseName)
+  const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
+  const descriptions = candidates.map((c) => c.description ?? '')
+  const causes = primaryDisease?.causes ?? []
+  const guides = primaryDisease?.managementTips ?? []
 
   const rankColorMap = {
     1: 'text-red',
@@ -27,8 +30,9 @@ export default function DiseaseResultSuspicious({ onSaveClick }) {
         {/* 의심 질병 목록 */}
         <div className='flex flex-col px-[20px] py-[14px] mt-[19px] mb-[10px] gap-[16px] rounded-[10px] border border-[0.5px] border-gray-100'>
           {diseases.map((disease, idx) => {
-            const rank = idx + 1
-            const rankColor = rankColorMap[rank]
+            const candidate = candidates[idx]
+            const rank = candidate?.rank ?? idx + 1
+            const rankColor = rankColorMap[rank] || 'text-gray-200'
 
             return (
               <div key={idx} className='flex flex-col gap-[9px]'>
@@ -51,7 +55,9 @@ export default function DiseaseResultSuspicious({ onSaveClick }) {
                 </div>
 
                 {/* 설명 */}
-                <Body18 className='text-gray-200'>{descriptions[idx]}</Body18>
+                {descriptions[idx] && (
+                  <Body18 className='text-gray-200'>{descriptions[idx]}</Body18>
+                )}
               </div>
             )
           })}

@@ -1,10 +1,12 @@
 import { Body20, Head25 } from '@/shared/typography'
 import Button from '@/shared/components/Button'
+import { useNavigate } from 'react-router-dom'
 
-export default function DiseaseResultInconclusiveMid() {
-  // TODO: 실제 데이터로 교체
-  const diseases = ['질병1', '질병2']
-  const confidences = [0, 0]
+export default function DiseaseResultInconclusiveMid({ candidates = [] }) {
+  const navigate = useNavigate()
+
+  const diseases = candidates.map((c) => c.diseaseName)
+  const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
 
   return (
     <div className='flex flex-col justify-between'>
@@ -36,7 +38,7 @@ export default function DiseaseResultInconclusiveMid() {
         size='large'
         variant='primary'
         className='self-center mt-[42px]'
-        onClick={() => console.log('사진 재촬영 클릭')}
+        onClick={() => navigate('/camera')}
       />
     </div>
   )

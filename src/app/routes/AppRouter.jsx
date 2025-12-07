@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import RootLayout from '../layout/RootLayout'
 import HomePage from '@/features/home/pages/HomePage'
 import DiagnosisResultPage from '@/features/diagnosis/pages/DiagnosisResultPage'
+import GuidePage from '@/features/camera/pages/GuidePage'
+import CameraPage from '@/features/camera/pages/CameraPage'
+import PreviewPage from '@/features/camera/pages/PreviewPage'
 
 export default function AppRouter() {
   return (
@@ -12,18 +15,13 @@ export default function AppRouter() {
           {/* 홈 */}
           <Route index element={<HomePage />} />
 
-          {/* 진단 플로우 */}
-          {/* <Route path="diagnosis" element={<DiagnosisStartPage />} /> */}
-          {/* <Route path="diagnosis/guide" element={<DiagnosisGuidePage />} /> */}
-          {/* <Route path="diagnosis/capture" element={<DiagnosisCapturePage />} /> */}
-          {/* <Route path="diagnosis/review" element={<DiagnosisReviewPage />} /> */}
-          <Route path='diagnosis/result/:id' element={<DiagnosisResultPage />} />
-          {/* <Route path="diagnosis/:id/save" element={<DiagnosisSavePage />} /> */}
+          {/* 진단(카메라) */}
+          <Route path='camera/guide' element={<GuidePage />} />
+          <Route path='camera' element={<CameraPage />} />
+          <Route path='camera/preview' element={<PreviewPage />} />
 
-          {/* 폴더 & 기록 */}
-          {/* <Route path="folders/new" element={<FolderCreatePage />} />
-          <Route path="folders/:folderId" element={<FolderDetailPage />} />
-          <Route path="records/:recordId/move" element={<RecordMovePage />} /> */}
+          {/* 진단 결과 */}
+          <Route path='diagnosis/result' element={<DiagnosisResultPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

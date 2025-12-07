@@ -3,9 +3,8 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultNoDisease({ onSaveClick }) {
-  // TODO: 실제 데이터로 교체
-  const guides = ['가이드 1', '가이드 2', '가이드 3']
+export default function DiseaseResultNoDisease({ onSaveClick, careTips = [] }) {
+  const guides = careTips
 
   return (
     <div className='flex flex-col justify-between'>

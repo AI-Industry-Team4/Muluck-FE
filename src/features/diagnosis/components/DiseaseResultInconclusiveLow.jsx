@@ -1,7 +1,10 @@
 import { Body20, Head25 } from '@/shared/typography'
 import Button from '@/shared/components/Button'
+import { useNavigate } from 'react-router-dom'
 
 export default function DiseaseResultInconclusiveLow() {
+  const navigate = useNavigate()
+
   return (
     <div className='flex flex-col justify-between'>
       {/* 메인 영역 */}
@@ -19,7 +22,7 @@ export default function DiseaseResultInconclusiveLow() {
         size='large'
         variant='primary'
         className='self-center mt-[42px]'
-        onClick={() => console.log('사진 재촬영 클릭')}
+        onClick={() => navigate('/camera')}
       />
     </div>
   )
