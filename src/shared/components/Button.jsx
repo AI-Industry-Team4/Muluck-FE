@@ -18,7 +18,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`flex justify-center items-center rounded-[30px] ${sizeClass} ${styleClass} ${className}`}
+      className={`flex justify-center items-center rounded-[30px] ${sizeClass} ${styleClass} ${className} cursor-pointer`}
     >
       <Body20 className=''>{label}</Body20>
     </button>

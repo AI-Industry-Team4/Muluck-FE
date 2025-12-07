@@ -1,6 +1,6 @@
 import { Body20 } from '@/shared/typography'
 
-const PlantFolder = ({ label }) => {
+export default function PlantFolder({ label }) {
   return (
     <div className='relative w-[170px] h-[170px] bg-brand-light rounded-[5px] pt-2.5 pl-2.5'>
       <div className='flex gap-2.5'>
@@ -15,5 +15,3 @@ const PlantFolder = ({ label }) => {
     </div>
   )
 }
-
-export default PlantFolder

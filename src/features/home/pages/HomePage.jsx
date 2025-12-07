@@ -81,6 +81,7 @@ export default function HomePage() {
         src={camera}
         alt='camera'
         className='mt-[70px] ml-[156px] mb-[70px] w-20 h-20 cursor-pointer'
+        onClick={() => navigate('/camera/guide')}
       />
 
       {/* 폴더 추가 모달 */}
