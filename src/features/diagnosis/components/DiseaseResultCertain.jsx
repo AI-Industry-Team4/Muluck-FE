@@ -3,13 +3,14 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultCertain({ onSaveClick }) {
-  // TODO: 실제 데이터로 교체
-  const diseaseName = '질병명'
-  const confidence = 0 // 0~100
-  const description = '설명'
-  const causes = ['원인 1', '원인 2', '원인 3']
-  const guides = ['가이드 1', '가이드 2', '가이드 3']
+export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
+  if (!primaryDisease) return null
+
+  const diseaseName = primaryDisease.diseaseName
+  const confidence = Math.round((primaryDisease.confidenceScore ?? 0) * 100)
+  const description = primaryDisease.description ?? ''
+  const causes = primaryDisease.causes ?? []
+  const guides = primaryDisease.managementTips ?? []
 
   return (
     <div className='flex flex-col justify-between'>

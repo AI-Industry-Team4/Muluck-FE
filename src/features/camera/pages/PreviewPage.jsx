@@ -1,12 +1,21 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Body20 } from '@/shared/typography'
 import Button from '@/shared/components/Button'
+import useApi from '@/shared/hooks/useApi'
+import { analyzeDiagnosis } from '@/api/diagnosis'
 
 export default function PreviewPage() {
   const { state } = useLocation()
   const navigate = useNavigate()
 
   const image = state?.image
+
+  const handleAnalyze = () => {
+    if (!image) return
+    navigate('/diagnosis/result', {
+      state: { previewImage: image },
+    })
+  }
 
   return (
     <div className='flex flex-col'>
@@ -31,7 +40,7 @@ export default function PreviewPage() {
           label='사진 다시 불러오기'
           onClick={() => navigate('/camera')}
         />
-        <Button size='large' label='식물 상태 분석하기' onClick={() => navigate('/diagnosis')} />
+        <Button size='large' label='식물 상태 분석하기' onClick={handleAnalyze} />
       </div>
     </div>
   )
