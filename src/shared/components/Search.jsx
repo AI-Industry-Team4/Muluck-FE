@@ -1,16 +1,17 @@
 import search from '@/assets/icons/Search.svg'
 
-const Search = ({
-  label,
-  onClick,
-  size = 'small', // 'small' | 'large'
-}) => {
-  const sizeClass = size === 'large' ? 'w-[352pxpx]' : 'w-[298px]'
+const Search = ({ label, onClick, size = 'small' }) => {
+  const sizeStyles = {
+    small: 'w-[298px]',
+    large: 'w-[352px]',
+  }
+
   return (
     <div
-      className={`flex pl-[13px] items-center h-[45px] ${sizeClass} border border-brand rounded-[10px]`}
+      className={`flex items-center h-[45px] px-3 border border-brand rounded-[10px] ${sizeStyles[size]}`}
     >
-      <input placeholder={label} className='w-[250px] outline-none'></input>
+      <input placeholder={label} className='flex-1 outline-none text-m' />
+
       <img src={search} onClick={onClick} className='w-6 h-6 cursor-pointer' />
     </div>
   )
