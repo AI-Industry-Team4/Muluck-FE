@@ -10,10 +10,13 @@ export default function DiseaseResultSuspicious({
   products,
   crop,
 }) {
-  const diseases = candidates.map((c) => c.diseaseName)
-  const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
+  // '건강' 상태를 제외하고 질병 후보만 필터링
+  const diseaseCandidates = candidates.filter((c) => c.diseaseName !== '건강')
+
+  const diseases = diseaseCandidates.map((c) => c.diseaseName)
+  const confidences = diseaseCandidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
   // 1순위 질병의 description이 없으면 primaryDisease의 description 사용
-  const descriptions = candidates.map((c, idx) => {
+  const descriptions = diseaseCandidates.map((c, idx) => {
     if (idx === 0 && !c.description && primaryDisease?.description) {
       return primaryDisease.description
     }
@@ -41,9 +44,10 @@ export default function DiseaseResultSuspicious({
         {/* 의심 질병 목록 */}
         <div className='flex flex-col px-[20px] py-[14px] mt-[19px] mb-[10px] gap-[16px] rounded-[10px] border border-[0.5px] border-gray-100'>
           {diseases.map((disease, idx) => {
-            const candidate = candidates[idx]
-            const rank = candidate?.rank ?? idx + 1
-            const rankColor = rankColorMap[rank] || 'text-gray-200'
+            const candidate = diseaseCandidates[idx]
+            // 필터링된 후보에 대해 1부터 시작하는 순위 재매핑
+            const displayRank = idx + 1
+            const rankColor = rankColorMap[displayRank] || 'text-gray-200'
 
             return (
               <div key={idx} className='flex flex-col gap-[9px]'>
@@ -51,7 +55,7 @@ export default function DiseaseResultSuspicious({
                 <div className='flex gap-[14px] items-center'>
                   {/* 순위 + 질병명 */}
                   <div className='flex gap-[8px]'>
-                    <Head25 className={rankColor}>{rank}순위</Head25>
+                    <Head25 className={rankColor}>{displayRank}순위</Head25>
                     <Head25 className='text-gray-300'>{disease}</Head25>
                   </div>
 
