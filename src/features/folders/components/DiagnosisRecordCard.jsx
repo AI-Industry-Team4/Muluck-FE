@@ -3,9 +3,14 @@ import menu from '@/assets/icons/menu.svg'
 import { Body18, Sub10, Sub12 } from '@/shared/typography'
 import FolderSelectModal from '@/shared/components/FolderSelectModal'
 import CompleteModal from '@/shared/components/CompleteModal'
+import { updateUserFolders } from '@/api/folder'
+import useApi from '@/shared/hooks/useApi'
 
 export default function DiagnosisRecordCard({
   title,
+  img,
+  diagnosisId,
+  folderName,
   description,
   result = [],
   date,
@@ -18,6 +23,7 @@ export default function DiagnosisRecordCard({
   const [openSelectModal, setOpenSelectModal] = useState(false)
   const [openCompleteModal, setOpenCompleteModal] = useState(false)
   const [SelectedFolderId, setSelectedFolderId] = useState(selectedFolderId)
+  const { data, error, loading, execute } = useApi(updateUserFolders)
 
   const handleOpenModal = () => {
     setOpenMenu(false)
@@ -25,6 +31,10 @@ export default function DiagnosisRecordCard({
   }
 
   const handleConfirmFolder = (id) => {
+    execute({
+      diagnosisId,
+      targetFolderId: id,
+    })
     onConfirmMove?.(id)
     setOpenSelectModal(false)
     setOpenCompleteModal(true)
@@ -34,7 +44,9 @@ export default function DiagnosisRecordCard({
     <div className='w-[352px] min-h-40 bg-brand-light rounded-[5px] p-2.5 relative'>
       <div className='flex gap-3 items-center'>
         {/* 이미지 */}
-        <div className='w-[130px] h-[140px] bg-gray-300 rounded-md' />
+        <div className='self-stretch'>
+          <img src={img} className='w-[130px] h-full object-cover rounded-md bg-gray-300' />
+        </div>
 
         {/* 내용 */}
         <div className='flex-1'>
@@ -84,7 +96,7 @@ export default function DiagnosisRecordCard({
               </>
             ) : (
               <div className='flex flex-col h-20 justify-center items-center'>
-                <Sub12 className='text-gray-100'>잘 관리된 {title}에요</Sub12>
+                <Sub12 className='text-gray-100'>잘 관리된 {folderName}에요</Sub12>
               </div>
             )}
           </div>
