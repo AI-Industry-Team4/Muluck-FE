@@ -7,6 +7,7 @@ export default function DiseaseResultSuspicious({
   onSaveClick,
   candidates = [],
   primaryDisease = null,
+  products,
 }) {
   const diseases = candidates.map((c) => c.diseaseName)
   const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
@@ -72,7 +73,7 @@ export default function DiseaseResultSuspicious({
         <ListBox title='이렇게 관리하는 게 좋아요!' items={guides} />
 
         {/* 추천 제품 영역 */}
-        <ProductRecommendSection />
+        <ProductRecommendSection products={products} />
       </div>
 
       {/* 저장하기 버튼 */}

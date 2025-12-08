@@ -3,7 +3,7 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultNoDisease({ onSaveClick, careTips = [] }) {
+export default function DiseaseResultNoDisease({ onSaveClick, careTips = [], products }) {
   const guides = careTips
 
   return (
@@ -17,7 +17,7 @@ export default function DiseaseResultNoDisease({ onSaveClick, careTips = [] }) {
         <ListBox title='이렇게 예방할 수 있어요!' items={guides} />
 
         {/* 추천 제품 영역 */}
-        <ProductRecommendSection />
+        <ProductRecommendSection products={products} />
       </div>
 
       {/* 저장하기 버튼 */}

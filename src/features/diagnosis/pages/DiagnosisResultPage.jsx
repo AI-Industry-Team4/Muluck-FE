@@ -4,6 +4,7 @@ import { H36 } from '@/shared/typography'
 
 import useApi from '@/shared/hooks/useApi'
 import { analyzeDiagnosis } from '@/api/diagnosis'
+import { getFertilizerProducts } from '@/api/fertilizer'
 import { dataUrlToFile } from '@/shared/utils/image'
 import Button from '@/shared/components/Button'
 
@@ -55,6 +56,14 @@ export default function DiagnosisResultPage() {
   // 진단 API 호출
   const { data: diagnosis, error, loading, execute } = useApi(analyzeDiagnosis)
 
+  // 비료 제품 API 호출
+  const {
+    data: products,
+    error: productsError,
+    loading: productsLoading,
+    execute: executeProducts,
+  } = useApi(getFertilizerProducts)
+
   // 폴더 선택 모달
   const [isFolderModalOpen, setIsFolderModalOpen] = useState(false)
   const [selectedFolderId, setSelectedFolderId] = useState(null)
@@ -68,12 +77,13 @@ export default function DiagnosisResultPage() {
     // TODO: 실제 진단 결과를 해당 폴더로 저장 API 호출
   }
 
-  // 페이지 진입 시 진단 요청
+  // 페이지 진입 시 진단 요청 및 비료 제품 조회
   useEffect(() => {
     if (!previewImage) return
     const file = dataUrlToFile(previewImage, 'capture.jpg')
     execute(file)
-  }, [previewImage, execute])
+    executeProducts()
+  }, [previewImage, execute, executeProducts])
 
   // 최종 이미지 URL (진단 이미지 > 프리뷰 이미지 > null)
   const imageUrl = diagnosis?.imageUrl ?? previewImage ?? null
@@ -126,7 +136,7 @@ export default function DiagnosisResultPage() {
 
       {/* 결과 내용 영역 */}
       <div className='mt-[18px] px-[20px] flex-1 overflow-y-auto'>
-        {renderResultSection(caseType, diagnosis, handleOpenFolderModal)}
+        {renderResultSection(caseType, diagnosis, handleOpenFolderModal, products)}
       </div>
 
       {/* 폴더 선택 모달 */}
@@ -144,13 +154,14 @@ export default function DiagnosisResultPage() {
 }
 
 // 케이스별 섹션 렌더 함수
-function renderResultSection(caseType, diagnosis, onSaveClick) {
+function renderResultSection(caseType, diagnosis, onSaveClick, products) {
   switch (caseType) {
     case 'CERTAIN_DISEASE':
       return (
         <DiseaseResultCertain
           onSaveClick={onSaveClick}
           primaryDisease={diagnosis?.primaryDisease}
+          products={products}
         />
       )
 
@@ -160,12 +171,17 @@ function renderResultSection(caseType, diagnosis, onSaveClick) {
           onSaveClick={onSaveClick}
           candidates={diagnosis?.candidates || []}
           primaryDisease={diagnosis?.primaryDisease}
+          products={products}
         />
       )
 
     case 'NO_DISEASE':
       return (
-        <DiseaseResultNoDisease onSaveClick={onSaveClick} careTips={diagnosis?.careTips || []} />
+        <DiseaseResultNoDisease
+          onSaveClick={onSaveClick}
+          careTips={diagnosis?.careTips || []}
+          products={products}
+        />
       )
 
     case 'INCONCLUSIVE_LOW':

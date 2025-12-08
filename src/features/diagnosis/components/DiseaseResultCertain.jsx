@@ -3,7 +3,7 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
+export default function DiseaseResultCertain({ onSaveClick, primaryDisease, products }) {
   if (!primaryDisease) return null
 
   const diseaseName = primaryDisease.diseaseName
@@ -41,7 +41,7 @@ export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
         <ListBox title='이렇게 관리하는 게 좋아요!' items={guides} />
 
         {/* 추천 제품 영역 */}
-        <ProductRecommendSection />
+        <ProductRecommendSection products={products} />
       </div>
 
       {/* 저장하기 버튼 */}
