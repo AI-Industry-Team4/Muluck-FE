@@ -1,49 +1,94 @@
+import { useEffect, useState } from 'react'
 import DiagnosisRecordCard from '../components/DiagnosisRecordCard'
 import Search from '@/shared/components/Search'
 import { H36 } from '@/shared/typography'
 import camera from '@/assets/icons/camera.svg'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import useApi from '@/shared/hooks/useApi'
+import { getFoldersDetail } from '@/api/folderDetail'
+import { getUserFolders } from '@/api/folder'
+
+function transformFoldersData(apiData) {
+  if (!apiData?.plantFolders) return []
+  return apiData.plantFolders.map((folder) => ({
+    id: folder.folderId,
+    name: folder.folderName,
+  }))
+}
 
 export default function FolderDetailPage() {
   const navigate = useNavigate()
+  const { id } = useParams()
+  const { data, error, loading, execute } = useApi(getFoldersDetail)
+  const { data: folderData, execute: fetchUserFolders } = useApi(getUserFolders)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    execute({ folderId: id })
+  }, [id])
+
+  useEffect(() => {
+    fetchUserFolders()
+  }, [])
+
+  if (loading) return <p>불러오는 중…</p>
+  if (error) return <p>{error.message}</p>
+
+  const folderName = data?.folderName ?? ''
+  const diagnoses = data?.diagnoses ?? []
+
+  const filteredDiagnoses = diagnoses.filter((item) =>
+    (item.diseaseName ?? '건강').toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   return (
     <div className='flex flex-col'>
       {/* 제목 */}
       <div className='mt-10 ml-[21px] mb-[18px]'>
-        <H36 className='text-brand text-start'>{} 진단 기록</H36>
+        <H36 className='text-brand text-start'>{folderName} 진단 기록</H36>
       </div>
 
       {/* 검색창 */}
       <div className='flex ml-[21px]'>
-        <Search label={'진단명으로 검색하기'} onChange={() => {}} onClick={() => {}} size='large' />
+        <Search
+          label={'진단명으로 검색하기'}
+          onChange={(value) => setSearchTerm(value)}
+          onClick={() => {}}
+          size='large'
+        />
       </div>
 
       {/* 질병 카드 */}
-      <div className='mt-4 space-y-4 px-5'>
-        <DiagnosisRecordCard
-          title='사과 잎마름병'
-          description='...'
-          result={[
-            { label: '원인 분석1', value: '원인1' },
-            { label: '원인 분석2', value: '원인2' },
-          ]}
-          date='2025-12-07'
-          percent='100'
-          folders={[
-            { id: 1, name: '사과' },
-            { id: 2, name: '토마토' },
-          ]}
-          selectedFolderId={1}
-          onConfirmMove={(folderId) => console.log('이동 완료:', folderId)}
-        />
+      <div className='mt-4 space-y-4 px-5 mb-50'>
+        {filteredDiagnoses.map((item) => (
+          <DiagnosisRecordCard
+            key={item.diagnosisId}
+            folderName={folderName}
+            diagnosisId={item.diagnosisId}
+            img={item.imageUrl}
+            title={item.diseaseName ?? '건강'}
+            description={item.diseaseDescription ?? '해당 식물은 건강합니다.'}
+            result={
+              item.cause
+                ? item.cause
+                    .split('\n')
+                    .map((c, index) => ({ label: `원인 분석${index + 1}`, value: c }))
+                : []
+            }
+            date={item.diagnosisDate}
+            percent={item.confidenceScore.replace('%', '')}
+            folders={transformFoldersData(folderData)}
+            selectedFolderId={id}
+            onConfirmMove={() => {}}
+          />
+        ))}
       </div>
 
       {/* 카메라 버튼 */}
       <img
         src={camera}
         alt='camera'
-        className='mt-[70px] ml-[156px] bottom-[70px] w-20 h-20 cursor-pointer'
+        className='fixed bottom-15 left-1/2 -translate-x-1/2 w-20 h-20 cursor-pointer'
         onClick={() => navigate('/camera/guide')}
       />
     </div>
