@@ -5,6 +5,7 @@ import DiagnosisResultPage from '@/features/diagnosis/pages/DiagnosisResultPage'
 import GuidePage from '@/features/camera/pages/GuidePage'
 import CameraPage from '@/features/camera/pages/CameraPage'
 import PreviewPage from '@/features/camera/pages/PreviewPage'
+import FolderDetailPage from '@/features/folders/pages/FolderDetailPage'
 
 export default function AppRouter() {
   return (
@@ -14,6 +15,9 @@ export default function AppRouter() {
         <Route element={<RootLayout />}>
           {/* 홈 */}
           <Route index element={<HomePage />} />
+
+          {/* 폴더 상세 */}
+          <Route path='/folder/:id' element={<FolderDetailPage />} />
 
           {/* 진단(카메라) */}
           <Route path='camera/guide' element={<GuidePage />} />
