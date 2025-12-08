@@ -14,11 +14,12 @@ export default function FolderSelectModal({
   onConfirm, // (id) => void
   getTitleText = undefined,
   emptyTitle = '폴더를 선택해 주세요',
+  isLoading = false, // 저장 중 로딩 상태
 }) {
   const [keyword, setKeyword] = useState('')
 
   const selectedFolder = folders?.find((f) => f.id === selectedFolderId)
-  const isDisabled = !selectedFolderId
+  const isDisabled = !selectedFolderId || isLoading
 
   // 제목 텍스트/색상
   const title = useMemo(() => {
@@ -121,7 +122,7 @@ export default function FolderSelectModal({
 
         {/* 저장하기 버튼 */}
         <Button
-          label='저장하기'
+          label={isLoading ? '저장 중...' : '저장하기'}
           size='small'
           variant={isDisabled ? 'secondary' : 'primary'}
           className='mt-[42px] self-center'

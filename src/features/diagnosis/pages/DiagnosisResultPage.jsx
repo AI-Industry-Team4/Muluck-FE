@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { H36 } from '@/shared/typography'
 
 import useApi from '@/shared/hooks/useApi'
-import { analyzeDiagnosis } from '@/api/diagnosis'
+import { analyzeDiagnosis, saveDiagnosis } from '@/api/diagnosis'
 import { getFertilizerProducts } from '@/api/fertilizer'
 import { getUserFolders } from '@/api/folder'
 import { dataUrlToFile } from '@/shared/utils/image'
 import Button from '@/shared/components/Button'
+import CompleteModal from '@/shared/components/CompleteModal'
 
 // 결과 섹션별 컴포넌트
 import DiseaseResultCertain from '@/features/diagnosis/components/DiseaseResultCertain'
@@ -74,21 +75,51 @@ export default function DiagnosisResultPage() {
     execute: executeFolders,
   } = useApi(getUserFolders)
 
+  // 진단 결과 저장 API 호출
+  const {
+    data: savedDiagnosis,
+    error: saveError,
+    loading: saveLoading,
+    execute: executeSave,
+  } = useApi(saveDiagnosis)
+
   // 폴더 선택 모달
   const [isFolderModalOpen, setIsFolderModalOpen] = useState(false)
   const [selectedFolderId, setSelectedFolderId] = useState(null)
+
+  // 저장 완료 모달
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
 
   const handleOpenFolderModal = () => {
     setIsFolderModalOpen(true)
     // 모달이 열릴 때 폴더 목록 조회
     executeFolders()
   }
-  const handleCloseFolderModal = () => setIsFolderModalOpen(false)
-
-  const handleConfirmFolder = (folderId) => {
-    console.log('저장할 폴더:', folderId)
+  const handleCloseFolderModal = () => {
     setIsFolderModalOpen(false)
-    // TODO: 실제 진단 결과를 해당 폴더로 저장 API 호출
+    setSelectedFolderId(null) // 모달 닫을 때 선택 초기화
+  }
+
+  const handleConfirmFolder = async (folderId) => {
+    if (!diagnosis?.tempDiagnosisId) {
+      console.error('진단 결과가 없습니다.')
+      return
+    }
+
+    try {
+      await executeSave(diagnosis.tempDiagnosisId, folderId, 'CAMERA')
+      setIsFolderModalOpen(false)
+      setIsCompleteModalOpen(true)
+      setSelectedFolderId(null) // 저장 후 선택 초기화
+    } catch (error) {
+      console.error('진단 결과 저장 실패:', error)
+      // 에러는 useApi에서 관리되므로 여기서는 로그만 출력
+      // 저장 실패 시에도 모달은 유지 (사용자가 다시 시도할 수 있도록)
+    }
+  }
+
+  const handleCloseCompleteModal = () => {
+    setIsCompleteModalOpen(false)
   }
 
   // 페이지 진입 시 진단 요청 및 비료 제품 조회
@@ -162,6 +193,14 @@ export default function DiagnosisResultPage() {
         selectedFolderId={selectedFolderId}
         onSelectFolder={setSelectedFolderId}
         onConfirm={handleConfirmFolder}
+        isLoading={saveLoading}
+      />
+
+      {/* 저장 완료 모달 */}
+      <CompleteModal
+        isOpen={isCompleteModalOpen}
+        onClose={handleCloseCompleteModal}
+        title='진단 기록이 저장되었습니다!'
       />
     </div>
   )
