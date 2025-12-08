@@ -3,7 +3,7 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
+export default function DiseaseResultCertain({ onSaveClick, primaryDisease, products, crop }) {
   if (!primaryDisease) return null
 
   const diseaseName = primaryDisease.diseaseName
@@ -16,6 +16,9 @@ export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
     <div className='flex flex-col justify-between'>
       {/* 내용 영역 */}
       <div>
+        {/* 작물 정보 */}
+        {crop && <Body18 className='text-gray-200 mb-[10px]'>작물: {crop}</Body18>}
+
         {/* 질병명 + 예측 신뢰도 */}
         <div className='flex gap-[14px] items-center mb-[10px]'>
           {/* 질병명 */}
@@ -41,7 +44,7 @@ export default function DiseaseResultCertain({ onSaveClick, primaryDisease }) {
         <ListBox title='이렇게 관리하는 게 좋아요!' items={guides} />
 
         {/* 추천 제품 영역 */}
-        <ProductRecommendSection />
+        <ProductRecommendSection products={products} />
       </div>
 
       {/* 저장하기 버튼 */}

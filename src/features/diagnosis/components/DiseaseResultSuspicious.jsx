@@ -7,10 +7,21 @@ export default function DiseaseResultSuspicious({
   onSaveClick,
   candidates = [],
   primaryDisease = null,
+  products,
+  crop,
 }) {
-  const diseases = candidates.map((c) => c.diseaseName)
-  const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
-  const descriptions = candidates.map((c) => c.description ?? '')
+  // '건강' 상태를 제외하고 질병 후보만 필터링
+  const diseaseCandidates = candidates.filter((c) => c.diseaseName !== '건강')
+
+  const diseases = diseaseCandidates.map((c) => c.diseaseName)
+  const confidences = diseaseCandidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
+  // 1순위 질병의 description이 없으면 primaryDisease의 description 사용
+  const descriptions = diseaseCandidates.map((c, idx) => {
+    if (idx === 0 && !c.description && primaryDisease?.description) {
+      return primaryDisease.description
+    }
+    return c.description ?? ''
+  })
   const causes = primaryDisease?.causes ?? []
   const guides = primaryDisease?.managementTips ?? []
 
@@ -24,15 +35,19 @@ export default function DiseaseResultSuspicious({
     <div className='flex flex-col justify-between'>
       {/* 내용 영역 */}
       <div>
+        {/* 작물 정보 */}
+        {crop && <Body18 className='text-gray-200 mb-[10px]'>작물: {crop}</Body18>}
+
         {/* 헤더 */}
         <Head25>병충해가 의심돼요! 😨</Head25>
 
         {/* 의심 질병 목록 */}
         <div className='flex flex-col px-[20px] py-[14px] mt-[19px] mb-[10px] gap-[16px] rounded-[10px] border border-[0.5px] border-gray-100'>
           {diseases.map((disease, idx) => {
-            const candidate = candidates[idx]
-            const rank = candidate?.rank ?? idx + 1
-            const rankColor = rankColorMap[rank] || 'text-gray-200'
+            const candidate = diseaseCandidates[idx]
+            // 필터링된 후보에 대해 1부터 시작하는 순위 재매핑
+            const displayRank = idx + 1
+            const rankColor = rankColorMap[displayRank] || 'text-gray-200'
 
             return (
               <div key={idx} className='flex flex-col gap-[9px]'>
@@ -40,7 +55,7 @@ export default function DiseaseResultSuspicious({
                 <div className='flex gap-[14px] items-center'>
                   {/* 순위 + 질병명 */}
                   <div className='flex gap-[8px]'>
-                    <Head25 className={rankColor}>{rank}순위</Head25>
+                    <Head25 className={rankColor}>{displayRank}순위</Head25>
                     <Head25 className='text-gray-300'>{disease}</Head25>
                   </div>
 
@@ -72,7 +87,7 @@ export default function DiseaseResultSuspicious({
         <ListBox title='이렇게 관리하는 게 좋아요!' items={guides} />
 
         {/* 추천 제품 영역 */}
-        <ProductRecommendSection />
+        <ProductRecommendSection products={products} />
       </div>
 
       {/* 저장하기 버튼 */}
