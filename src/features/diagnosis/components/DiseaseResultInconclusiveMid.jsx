@@ -1,8 +1,8 @@
-import { Body20, Head25 } from '@/shared/typography'
+import { Body18, Body20, Head25 } from '@/shared/typography'
 import Button from '@/shared/components/Button'
 import { useNavigate } from 'react-router-dom'
 
-export default function DiseaseResultInconclusiveMid({ candidates = [] }) {
+export default function DiseaseResultInconclusiveMid({ candidates = [], crop }) {
   const navigate = useNavigate()
 
   const diseases = candidates.map((c) => c.diseaseName)
@@ -10,6 +10,9 @@ export default function DiseaseResultInconclusiveMid({ candidates = [] }) {
 
   return (
     <div className='flex flex-col justify-between'>
+      {/* 작물 정보 */}
+      {crop && <Body18 className='text-gray-200 mb-[10px]'>작물: {crop}</Body18>}
+
       {/* 메인 영역 */}
       <div className='flex flex-col justify-center items-center mt-[44px] gap-[27px] py-[27px] rounded-[10px] border border-[2px] border-percent'>
         <Head25 className='text-gray-300'>병충해를 판별할 수 없어요 😢</Head25>

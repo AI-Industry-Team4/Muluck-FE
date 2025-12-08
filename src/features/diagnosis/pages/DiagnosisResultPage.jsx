@@ -181,7 +181,7 @@ export default function DiagnosisResultPage() {
 
       {/* 결과 내용 영역 */}
       <div className='mt-[18px] px-[20px] flex-1 overflow-y-auto'>
-        {renderResultSection(caseType, diagnosis, handleOpenFolderModal, products)}
+        {renderResultSection(caseType, diagnosis, handleOpenFolderModal, products, diagnosis?.crop)}
       </div>
 
       {/* 폴더 선택 모달 */}
@@ -207,7 +207,7 @@ export default function DiagnosisResultPage() {
 }
 
 // 케이스별 섹션 렌더 함수
-function renderResultSection(caseType, diagnosis, onSaveClick, products) {
+function renderResultSection(caseType, diagnosis, onSaveClick, products, crop) {
   switch (caseType) {
     case 'CERTAIN_DISEASE':
       return (
@@ -215,6 +215,7 @@ function renderResultSection(caseType, diagnosis, onSaveClick, products) {
           onSaveClick={onSaveClick}
           primaryDisease={diagnosis?.primaryDisease}
           products={products}
+          crop={crop}
         />
       )
 
@@ -225,6 +226,7 @@ function renderResultSection(caseType, diagnosis, onSaveClick, products) {
           candidates={diagnosis?.candidates || []}
           primaryDisease={diagnosis?.primaryDisease}
           products={products}
+          crop={crop}
         />
       )
 
@@ -234,6 +236,7 @@ function renderResultSection(caseType, diagnosis, onSaveClick, products) {
           onSaveClick={onSaveClick}
           careTips={diagnosis?.careTips || []}
           products={products}
+          crop={crop}
         />
       )
 
@@ -241,7 +244,7 @@ function renderResultSection(caseType, diagnosis, onSaveClick, products) {
       return <DiseaseResultInconclusiveLow />
 
     case 'INCONCLUSIVE_MID':
-      return <DiseaseResultInconclusiveMid candidates={diagnosis?.candidates || []} />
+      return <DiseaseResultInconclusiveMid candidates={diagnosis?.candidates || []} crop={crop} />
 
     default:
       return null

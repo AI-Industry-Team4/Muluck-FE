@@ -8,10 +8,17 @@ export default function DiseaseResultSuspicious({
   candidates = [],
   primaryDisease = null,
   products,
+  crop,
 }) {
   const diseases = candidates.map((c) => c.diseaseName)
   const confidences = candidates.map((c) => Math.round((c.confidenceScore ?? 0) * 100))
-  const descriptions = candidates.map((c) => c.description ?? '')
+  // 1순위 질병의 description이 없으면 primaryDisease의 description 사용
+  const descriptions = candidates.map((c, idx) => {
+    if (idx === 0 && !c.description && primaryDisease?.description) {
+      return primaryDisease.description
+    }
+    return c.description ?? ''
+  })
   const causes = primaryDisease?.causes ?? []
   const guides = primaryDisease?.managementTips ?? []
 
@@ -25,6 +32,9 @@ export default function DiseaseResultSuspicious({
     <div className='flex flex-col justify-between'>
       {/* 내용 영역 */}
       <div>
+        {/* 작물 정보 */}
+        {crop && <Body18 className='text-gray-200 mb-[10px]'>작물: {crop}</Body18>}
+
         {/* 헤더 */}
         <Head25>병충해가 의심돼요! 😨</Head25>
 

@@ -3,7 +3,7 @@ import ListBox from './ListBox'
 import ProductRecommendSection from './ProductRecommendSection'
 import Button from '@/shared/components/Button'
 
-export default function DiseaseResultCertain({ onSaveClick, primaryDisease, products }) {
+export default function DiseaseResultCertain({ onSaveClick, primaryDisease, products, crop }) {
   if (!primaryDisease) return null
 
   const diseaseName = primaryDisease.diseaseName
@@ -16,6 +16,9 @@ export default function DiseaseResultCertain({ onSaveClick, primaryDisease, prod
     <div className='flex flex-col justify-between'>
       {/* 내용 영역 */}
       <div>
+        {/* 작물 정보 */}
+        {crop && <Body18 className='text-gray-200 mb-[10px]'>작물: {crop}</Body18>}
+
         {/* 질병명 + 예측 신뢰도 */}
         <div className='flex gap-[14px] items-center mb-[10px]'>
           {/* 질병명 */}
