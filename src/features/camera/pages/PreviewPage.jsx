@@ -20,7 +20,7 @@ export default function PreviewPage() {
   return (
     <div className='flex flex-col'>
       <button className='text-start cursor-pointer' onClick={() => navigate(-1)}>
-        <Body20 className='mt-[71px] ml-[21px] mb-4 text-gray-200'>이전</Body20>
+        <Body20 className='mt-[40px] ml-[21px] mb-4 text-gray-200'>이전</Body20>
       </button>
 
       {/* 이미지 미리보기 */}

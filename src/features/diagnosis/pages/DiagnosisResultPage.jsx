@@ -84,7 +84,7 @@ export default function DiagnosisResultPage() {
   // 로딩 상태일 때 전체 로딩 UI
   if (loading) {
     return (
-      <div className='py-[52px] flex flex-col h-full'>
+      <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
         <H36 className='p-[15px] text-brand'>진단 결과</H36>
         <div className='flex-1 flex items-center justify-center'>
           <p className='text-gray-200 text-body-20'>
@@ -98,7 +98,7 @@ export default function DiagnosisResultPage() {
   // 에러 상태
   if (error) {
     return (
-      <div className='py-[52px] flex flex-col h-full'>
+      <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
         <H36 className='p-[15px] text-brand'>진단 결과</H36>
         <div className='flex-1 flex flex-col items-center justify-center gap-4'>
           <p className='text-red-500 text-body-20'>
@@ -111,7 +111,7 @@ export default function DiagnosisResultPage() {
   }
 
   return (
-    <div className='py-[52px] flex flex-col h-full'>
+    <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
       {/* 헤더 */}
       <H36 className='p-[15px] text-brand'>진단 결과</H36>
 
