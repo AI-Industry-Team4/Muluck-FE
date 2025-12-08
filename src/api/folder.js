@@ -16,3 +16,25 @@ export async function getUserFolders() {
     throw handleApiError(error)
   }
 }
+
+// 사용자 폴더 추가 API
+export async function createUserFolders({ folderName }) {
+  try {
+    const res = await client.post(
+      '/home/folders',
+      {},
+      {
+        headers: {
+          'User-Id': env.userId,
+        },
+        params: {
+          folderName,
+        },
+      },
+    )
+
+    return res.data.data
+  } catch (error) {
+    throw handleApiError(error)
+  }
+}

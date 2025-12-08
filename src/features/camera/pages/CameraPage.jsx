@@ -14,10 +14,14 @@ export default function CameraPage() {
     navigate('/camera/preview', { state: { image: imageSrc } })
   }
 
+  const videoConstraints = {
+    facingMode: 'environment', // 강제 말고 요청만 (더 호환됨)
+  }
+
   return (
     <div className='flex flex-col'>
       <button className='text-start cursor-pointer' onClick={() => navigate('/')}>
-        <Body20 className='mt-[40px] ml-[21px] mb-4 text-gray-200'>닫기</Body20>
+        <Body20 className='mt-10 ml-[21px] mb-4 text-gray-200'>닫기</Body20>
       </button>
 
       {/* 카메라 영역 */}
@@ -28,6 +32,10 @@ export default function CameraPage() {
             audio={false}
             screenshotFormat='image/jpeg'
             className='w-full h-full object-cover'
+            videoConstraints={{
+              facingMode: 'environment',
+            }}
+            forceScreenshotSourceSize={true}
           />
         </div>
       </div>

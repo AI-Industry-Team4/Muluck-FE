@@ -10,13 +10,13 @@ export default function FolderDetailPage() {
   return (
     <div className='flex flex-col'>
       {/* 제목 */}
-      <div className='mt-[40px] ml-[21px] mb-[18px]'>
+      <div className='mt-10 ml-[21px] mb-[18px]'>
         <H36 className='text-brand text-start'>{} 진단 기록</H36>
       </div>
 
       {/* 검색창 */}
       <div className='flex ml-[21px]'>
-        <Search label={'진단명으로 검색하기'} onClick={() => {}} size='large' />
+        <Search label={'진단명으로 검색하기'} onChange={() => {}} onClick={() => {}} size='large' />
       </div>
 
       {/* 질병 카드 */}
@@ -29,7 +29,7 @@ export default function FolderDetailPage() {
             { label: '원인 분석2', value: '원인2' },
           ]}
           date='2025-12-07'
-          badge='위험'
+          percent='100'
           folders={[
             { id: 1, name: '사과' },
             { id: 2, name: '토마토' },

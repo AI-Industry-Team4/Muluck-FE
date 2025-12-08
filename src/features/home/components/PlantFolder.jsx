@@ -1,17 +1,32 @@
 import { Body20 } from '@/shared/typography'
+import { useNavigate } from 'react-router-dom'
 
-export default function PlantFolder({ label }) {
+export default function PlantFolder({ label, images = [], folderId }) {
+  const navigate = useNavigate()
+  while (images.length < 4) images.push(null)
+
+  const handleClick = () => {
+    navigate(`/folder/${folderId}`)
+  }
+
   return (
-    <div className='relative w-[170px] h-[170px] bg-brand-light rounded-[5px] pt-2.5 pl-2.5'>
-      <div className='flex gap-2.5'>
-        <img src='' alt='' className='w-[70px] h-14 bg-[#D9D9D9] rounded-[5px]' />
-        <img src='' alt='' className='w-[70px] h-14 bg-[#D9D9D9] rounded-[5px]' />
+    <div
+      onClick={handleClick}
+      className='relative w-[170px] h-[170px] bg-brand-light rounded-[5px] p-2.5'
+    >
+      {/* 이미지 2x2 */}
+      <div className='grid grid-cols-2 gap-2.5'>
+        {images.map((img, idx) =>
+          img ? (
+            <img key={idx} src={img} alt='' className='w-[70px] h-14 rounded-[5px] object-cover' />
+          ) : (
+            <div key={idx} className='w-[70px] h-14 rounded-[5px] bg-[#D9D9D9]' />
+          ),
+        )}
       </div>
-      <div className='flex gap-2.5 mt-2.5 mb-2.5'>
-        <img src='' alt='' className='w-[70px] h-14 bg-[#D9D9D9] rounded-[5px]' />
-        <img src='' alt='' className='w-[70px] h-14 bg-[#D9D9D9] rounded-[5px]' />
-      </div>
-      <Body20>{label}</Body20>
+
+      {/* 폴더명 */}
+      <Body20 className='mt-2'>{label}</Body20>
     </div>
   )
 }

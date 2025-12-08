@@ -11,7 +11,7 @@ export default function GuidePage() {
   return (
     <div className='flex flex-col'>
       <button className='text-start cursor-pointer' onClick={() => navigate('/')}>
-        <Body20 className='mt-[40px] ml-[21px] mb-4 text-gray-200'>닫기</Body20>
+        <Body20 className='mt-10 ml-[21px] mb-4 text-gray-200'>닫기</Body20>
       </button>
 
       {/* 콘텐츠 영역 */}
