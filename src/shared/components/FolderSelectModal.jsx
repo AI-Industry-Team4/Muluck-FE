@@ -94,11 +94,12 @@ export default function FolderSelectModal({
           </div>
 
           {/* 폴더 리스트 */}
-          <div className='rounded-[10px] bg-brand-light px-[15px] py-[10px]'>
+          <div className='rounded-[10px] bg-brand-light px-[15px] py-[10px] max-h-[170px] overflow-y-auto'>
             {filteredFolders?.map((folder, idx) => {
               const isSelected = folder.id === selectedFolderId
               const base = 'flex w-full items-center py-[10px] text-[20px] leading-5'
               const color = isSelected ? 'text-brand' : 'text-gray-200'
+              // 마지막 아이템이 아닐 때만 border 추가 (스크롤 시 마지막 아이템도 border가 보이지 않도록)
               const border = idx === filteredFolders.length - 1 ? '' : 'border-b border-gray-100'
 
               return (

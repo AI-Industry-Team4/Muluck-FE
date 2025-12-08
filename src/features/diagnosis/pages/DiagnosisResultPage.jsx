@@ -5,6 +5,7 @@ import { H36 } from '@/shared/typography'
 import useApi from '@/shared/hooks/useApi'
 import { analyzeDiagnosis } from '@/api/diagnosis'
 import { getFertilizerProducts } from '@/api/fertilizer'
+import { getUserFolders } from '@/api/folder'
 import { dataUrlToFile } from '@/shared/utils/image'
 import Button from '@/shared/components/Button'
 
@@ -16,13 +17,14 @@ import DiseaseResultNoDisease from '@/features/diagnosis/components/DiseaseResul
 import DiseaseResultSuspicious from '@/features/diagnosis/components/DiseaseResultSuspicious'
 import FolderSelectModal from '@/shared/components/FolderSelectModal'
 
-// TODO: 추후 서버에서 불러오기
-const mockFolders = [
-  { id: 1, name: '옥수수' },
-  { id: 2, name: '포도' },
-  { id: 3, name: '사과' },
-  { id: 4, name: '토마토' },
-]
+// API 응답 데이터를 FolderSelectModal 형식으로 변환
+function transformFoldersData(apiData) {
+  if (!apiData?.plantFolders) return []
+  return apiData.plantFolders.map((folder) => ({
+    id: folder.folderId,
+    name: folder.folderName,
+  }))
+}
 
 // 서버 caseType -> UI caseType 매핑
 function mapServerCaseTypeToUi(raw) {
@@ -64,11 +66,23 @@ export default function DiagnosisResultPage() {
     execute: executeProducts,
   } = useApi(getFertilizerProducts)
 
+  // 폴더 목록 API 호출
+  const {
+    data: foldersData,
+    error: foldersError,
+    loading: foldersLoading,
+    execute: executeFolders,
+  } = useApi(getUserFolders)
+
   // 폴더 선택 모달
   const [isFolderModalOpen, setIsFolderModalOpen] = useState(false)
   const [selectedFolderId, setSelectedFolderId] = useState(null)
 
-  const handleOpenFolderModal = () => setIsFolderModalOpen(true)
+  const handleOpenFolderModal = () => {
+    setIsFolderModalOpen(true)
+    // 모달이 열릴 때 폴더 목록 조회
+    executeFolders()
+  }
   const handleCloseFolderModal = () => setIsFolderModalOpen(false)
 
   const handleConfirmFolder = (folderId) => {
@@ -144,7 +158,7 @@ export default function DiagnosisResultPage() {
         emptyTitle='폴더를 선택해 주세요'
         isOpen={isFolderModalOpen}
         onClose={handleCloseFolderModal}
-        folders={mockFolders}
+        folders={transformFoldersData(foldersData)}
         selectedFolderId={selectedFolderId}
         onSelectFolder={setSelectedFolderId}
         onConfirm={handleConfirmFolder}
