@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { H36 } from '@/shared/typography'
+import { Body20, H36 } from '@/shared/typography'
 
 import useApi from '@/shared/hooks/useApi'
 import { analyzeDiagnosis, saveDiagnosis } from '@/api/diagnosis'
@@ -140,7 +140,13 @@ export default function DiagnosisResultPage() {
   if (loading) {
     return (
       <div className='py-[52px] flex flex-col h-full'>
-        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+        {/* 헤더 */}
+        <div className='flex items-center justify-between p-[15px]'>
+          <H36 className='text-brand'>진단 결과</H36>
+          <button className='cursor-pointer' onClick={() => navigate('/')}>
+            <Body20 className='text-gray-200'>홈으로</Body20>
+          </button>
+        </div>
         <div className='flex-1 flex items-center justify-center'>
           <p className='text-gray-200 text-body-20'>
             식물 상태를 분석 중입니다… 잠시만 기다려 주세요 🌱
@@ -154,7 +160,13 @@ export default function DiagnosisResultPage() {
   if (error) {
     return (
       <div className='py-[52px] flex flex-col h-full'>
-        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+        {/* 헤더 */}
+        <div className='flex items-center justify-between p-[15px]'>
+          <H36 className='text-brand'>진단 결과</H36>
+          <button className='cursor-pointer' onClick={() => navigate('/')}>
+            <Body20 className='text-gray-200'>홈으로</Body20>
+          </button>
+        </div>
         <div className='flex-1 flex flex-col items-center justify-center gap-4'>
           <p className='text-red-500 text-body-20'>
             {error.message || '진단 중 오류가 발생했습니다.'}
@@ -168,7 +180,10 @@ export default function DiagnosisResultPage() {
   return (
     <div className='py-[52px] flex flex-col h-full'>
       {/* 헤더 */}
-      <H36 className='p-[15px] text-brand'>진단 결과</H36>
+      <div className='flex items-center justify-between p-[15px]'>
+        <H36 className='text-brand'>진단 결과</H36>
+        <Button label='홈으로' size='small' variant='secondary' onClick={() => navigate('/')} />
+      </div>
 
       {/* 사진 영역 */}
       <div className='relative h-[200px] overflow-hidden bg-gray-200 flex items-center justify-center'>
