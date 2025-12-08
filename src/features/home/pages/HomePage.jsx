@@ -26,7 +26,7 @@ export default function HomePage() {
   return (
     <div className='scrollbar-hide overflow-auto'>
       {/* 제목 */}
-      <div className='mt-[76px] ml-[21px] mb-[18px]'>
+      <div className='mt-[40px] ml-[21px] mb-[18px]'>
         <H36 className='text-brand'>무럭무럭</H36>
       </div>
 

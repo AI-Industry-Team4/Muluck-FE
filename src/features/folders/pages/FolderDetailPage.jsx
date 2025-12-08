@@ -10,7 +10,7 @@ export default function FolderDetailPage() {
   return (
     <div className='flex flex-col'>
       {/* 제목 */}
-      <div className='mt-[76px] ml-[21px] mb-[18px]'>
+      <div className='mt-[40px] ml-[21px] mb-[18px]'>
         <H36 className='text-brand text-start'>{} 진단 기록</H36>
       </div>
 

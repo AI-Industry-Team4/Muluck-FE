@@ -139,14 +139,10 @@ export default function DiagnosisResultPage() {
   // 로딩 상태일 때 전체 로딩 UI
   if (loading) {
     return (
-      <div className='py-[52px] flex flex-col h-full'>
-        {/* 헤더 */}
-        <div className='flex items-center justify-between p-[15px]'>
-          <H36 className='text-brand'>진단 결과</H36>
-          <button className='cursor-pointer' onClick={() => navigate('/')}>
-            <Body20 className='text-gray-200'>홈으로</Body20>
-          </button>
-        </div>
+
+      <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
+        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+
         <div className='flex-1 flex items-center justify-center'>
           <p className='text-gray-200 text-body-20'>
             식물 상태를 분석 중입니다… 잠시만 기다려 주세요 🌱
@@ -159,14 +155,10 @@ export default function DiagnosisResultPage() {
   // 에러 상태
   if (error) {
     return (
-      <div className='py-[52px] flex flex-col h-full'>
-        {/* 헤더 */}
-        <div className='flex items-center justify-between p-[15px]'>
-          <H36 className='text-brand'>진단 결과</H36>
-          <button className='cursor-pointer' onClick={() => navigate('/')}>
-            <Body20 className='text-gray-200'>홈으로</Body20>
-          </button>
-        </div>
+
+      <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
+        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+
         <div className='flex-1 flex flex-col items-center justify-center gap-4'>
           <p className='text-red-500 text-body-20'>
             {error.message || '진단 중 오류가 발생했습니다.'}
@@ -178,7 +170,7 @@ export default function DiagnosisResultPage() {
   }
 
   return (
-    <div className='py-[52px] flex flex-col h-full'>
+    <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
       {/* 헤더 */}
       <div className='flex items-center justify-between p-[15px]'>
         <H36 className='text-brand'>진단 결과</H36>
