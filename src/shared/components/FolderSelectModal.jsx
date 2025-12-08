@@ -14,11 +14,12 @@ export default function FolderSelectModal({
   onConfirm, // (id) => void
   getTitleText = undefined,
   emptyTitle = '폴더를 선택해 주세요',
+  isLoading = false, // 저장 중 로딩 상태
 }) {
   const [keyword, setKeyword] = useState('')
 
   const selectedFolder = folders?.find((f) => f.id === selectedFolderId)
-  const isDisabled = !selectedFolderId
+  const isDisabled = !selectedFolderId || isLoading
 
   // 제목 텍스트/색상
   const title = useMemo(() => {
@@ -94,11 +95,12 @@ export default function FolderSelectModal({
           </div>
 
           {/* 폴더 리스트 */}
-          <div className='rounded-[10px] bg-brand-light px-[15px] py-[10px]'>
+          <div className='rounded-[10px] bg-brand-light px-[15px] py-[10px] max-h-[170px] overflow-y-auto'>
             {filteredFolders?.map((folder, idx) => {
               const isSelected = folder.id === selectedFolderId
               const base = 'flex w-full items-center py-[10px] text-[20px] leading-5'
               const color = isSelected ? 'text-brand' : 'text-gray-200'
+              // 마지막 아이템이 아닐 때만 border 추가 (스크롤 시 마지막 아이템도 border가 보이지 않도록)
               const border = idx === filteredFolders.length - 1 ? '' : 'border-b border-gray-100'
 
               return (
@@ -120,7 +122,7 @@ export default function FolderSelectModal({
 
         {/* 저장하기 버튼 */}
         <Button
-          label='저장하기'
+          label={isLoading ? '저장 중...' : '저장하기'}
           size='small'
           variant={isDisabled ? 'secondary' : 'primary'}
           className='mt-[42px] self-center'

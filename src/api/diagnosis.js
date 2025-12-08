@@ -20,3 +20,26 @@ export async function analyzeDiagnosis(imageFile) {
     throw handleApiError(error)
   }
 }
+
+// 진단 결과 저장 API
+export async function saveDiagnosis(tempDiagnosisId, folderId, imageSource = 'CAMERA') {
+  try {
+    const res = await client.post(
+      `/diagnoses/${tempDiagnosisId}`,
+      '', // 빈 body
+      {
+        params: {
+          folderId,
+          imageSource,
+        },
+        headers: {
+          'User-Id': env.userId,
+        },
+      },
+    )
+
+    return res.data.data
+  } catch (error) {
+    throw handleApiError(error)
+  }
+}
