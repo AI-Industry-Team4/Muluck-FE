@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Body20 } from '@/shared/typography'
 import Webcam from 'react-webcam'
 import Button from '@/shared/components/Button'
-import photo from '@/assets/icons/photo.png'
+import PhotoUploadButton from '../components/PhotoUploadButton'
 
 export default function CameraPage() {
   const webcamRef = useRef(null)
@@ -14,10 +14,6 @@ export default function CameraPage() {
     navigate('/camera/preview', { state: { image: imageSrc } })
   }
 
-  const videoConstraints = {
-    facingMode: 'environment', // 강제 말고 요청만 (더 호환됨)
-  }
-
   return (
     <div className='flex flex-col'>
       <button className='text-start cursor-pointer' onClick={() => navigate('/')}>
@@ -26,12 +22,12 @@ export default function CameraPage() {
 
       {/* 카메라 영역 */}
       <div className='flex-1 flex items-center justify-center'>
-        <div className='w-full h-[560px] aspect-3/4 bg-black overflow-hidden'>
+        <div className='w-full h-[75vh] aspect-3/4 bg-white overflow-hidden'>
           <Webcam
             ref={webcamRef}
             audio={false}
             screenshotFormat='image/jpeg'
-            className='w-full h-full object-cover'
+            className='w-full h-[560px] object-cover'
             videoConstraints={{
               facingMode: 'environment',
             }}
@@ -41,9 +37,12 @@ export default function CameraPage() {
       </div>
 
       {/* 촬영 버튼 */}
-      <div className='flex mt-[63px] ml-[121px]'>
+      <div className='relative w-full flex justify-center z-10'>
         <Button size='small' label='촬영하기' onClick={onCapture} />
-        <img src={photo} alt='photo' className='ml-[39px] cursor-pointer' />
+        <PhotoUploadButton
+          className='absolute left-1/2 translate-x-[100px] cursor-pointer'
+          nextPage='/camera/preview'
+        />
       </div>
     </div>
   )
