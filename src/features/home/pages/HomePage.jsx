@@ -69,7 +69,7 @@ export default function HomePage() {
       </div>
 
       {/* 검색바 영역 */}
-      <div className='flex mt-[26vh] z-10 justify-center'>
+      <div className='flex mt-[57%] z-10 justify-center'>
         <Search
           label={'작물명으로 검색하기'}
           size='small'
