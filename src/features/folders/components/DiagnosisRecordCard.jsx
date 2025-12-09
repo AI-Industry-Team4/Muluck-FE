@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import menu from '@/assets/icons/menu.svg'
 import { Body18, Sub10, Sub12 } from '@/shared/typography'
 import FolderSelectModal from '@/shared/components/FolderSelectModal'
@@ -18,7 +19,9 @@ export default function DiagnosisRecordCard({
   folders = [],
   selectedFolderId,
   onConfirmMove,
+  folderId, // 폴더 상세 페이지로 돌아가기 위한 폴더 ID
 }) {
+  const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(false)
   const [openSelectModal, setOpenSelectModal] = useState(false)
   const [openCompleteModal, setOpenCompleteModal] = useState(false)
@@ -40,8 +43,21 @@ export default function DiagnosisRecordCard({
     setOpenCompleteModal(true)
   }
 
+  const handleCardClick = (e) => {
+    // 메뉴 버튼이나 폴더 이동 관련 요소 클릭 시에는 카드 클릭 이벤트 무시
+    if (e.target.closest('button') || e.target.closest('[role="button"]')) {
+      return
+    }
+    navigate('/diagnosis/result', {
+      state: { diagnosisId, from: 'folder', folderId },
+    })
+  }
+
   return (
-    <div className='w-[352px] min-h-40 bg-brand-light rounded-[5px] p-2.5 relative'>
+    <div
+      className='w-[352px] min-h-40 bg-brand-light rounded-[5px] p-2.5 relative cursor-pointer'
+      onClick={handleCardClick}
+    >
       <div className='flex gap-3 items-center'>
         {/* 이미지 */}
         <div className='self-stretch'>

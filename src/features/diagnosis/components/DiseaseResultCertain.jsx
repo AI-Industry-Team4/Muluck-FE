@@ -48,13 +48,15 @@ export default function DiseaseResultCertain({ onSaveClick, primaryDisease, prod
       </div>
 
       {/* 저장하기 버튼 */}
-      <Button
-        label='저장하기'
-        size='small'
-        variant='primary'
-        className='self-center mt-[42px]'
-        onClick={onSaveClick}
-      />
+      {onSaveClick && (
+        <Button
+          label='저장하기'
+          size='small'
+          variant='primary'
+          className='self-center mt-[42px]'
+          onClick={onSaveClick}
+        />
+      )}
     </div>
   )
 }

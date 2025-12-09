@@ -6,6 +6,7 @@ import useApi from '@/shared/hooks/useApi'
 import { analyzeDiagnosis, saveDiagnosis } from '@/api/diagnosis'
 import { getFertilizerProducts } from '@/api/fertilizer'
 import { getUserFolders } from '@/api/folder'
+import { getDiagnosisDetail } from '@/api/folderDetail'
 import { dataUrlToFile } from '@/shared/utils/image'
 import Button from '@/shared/components/Button'
 import CompleteModal from '@/shared/components/CompleteModal'
@@ -50,14 +51,66 @@ function mapServerCaseTypeToUi(raw) {
   }
 }
 
+// 저장된 진단 기록 데이터를 기존 진단 결과 형식으로 변환
+function transformSavedDiagnosis(savedData) {
+  if (!savedData) return null
+
+  const isDisease = savedData.diagnosisType === 'DISEASE'
+  const result = savedData.result || {}
+
+  return {
+    diagnosisId: savedData.diagnosisId,
+    imageUrl: savedData.imageUrl,
+    caseType: isDisease ? 'CERTAIN_DISEASE' : 'HEALTHY',
+    crop: null, // 저장된 진단 기록에는 작물 정보가 없음
+    primaryDisease: isDisease
+      ? {
+          diseaseName: result.diseaseName || '',
+          confidenceScore: parseFloat(result.confidenceScore?.replace('%', '') || '0') / 100,
+          description: result.description || '',
+          causes: result.cause ? result.cause.split('\n').filter((c) => c.trim()) : [],
+          managementTips: result.managementGuide
+            ? result.managementGuide.split('\n').filter((g) => g.trim())
+            : [],
+        }
+      : null,
+    careTips: !isDisease
+      ? result.managementGuide
+        ? result.managementGuide.split('\n').filter((g) => g.trim())
+        : []
+      : [],
+  }
+}
+
 export default function DiagnosisResultPage() {
   const { state } = useLocation()
   const navigate = useNavigate()
 
   const previewImage = state?.previewImage || null
+  const diagnosisId = state?.diagnosisId || null
+  const from = state?.from || null // 'preview' 또는 'folder'
+  const folderId = state?.folderId || null // 폴더 상세 페이지로 돌아가기 위한 ID
 
-  // 진단 API 호출
-  const { data: diagnosis, error, loading, execute } = useApi(analyzeDiagnosis)
+  // 진단 API 호출 (새로운 진단)
+  const {
+    data: diagnosisData,
+    error: diagnosisError,
+    loading: diagnosisLoading,
+    execute,
+  } = useApi(analyzeDiagnosis)
+
+  // 저장된 진단 기록 조회 API 호출
+  const {
+    data: savedDiagnosisData,
+    error: savedDiagnosisError,
+    loading: savedDiagnosisLoading,
+    execute: executeSavedDiagnosis,
+  } = useApi(getDiagnosisDetail)
+
+  // 저장된 진단 기록인지 새로운 진단인지에 따라 데이터 선택
+  const diagnosis = diagnosisId ? transformSavedDiagnosis(savedDiagnosisData) : diagnosisData
+  const error = diagnosisId ? savedDiagnosisError : diagnosisError
+  const loading = diagnosisId ? savedDiagnosisLoading : diagnosisLoading
 
   // 비료 제품 API 호출
   const {
@@ -101,6 +154,12 @@ export default function DiagnosisResultPage() {
   }
 
   const handleConfirmFolder = async (folderId) => {
+    // 저장된 진단 기록은 다시 저장할 수 없음
+    if (diagnosisId) {
+      setIsFolderModalOpen(false)
+      return
+    }
+
     if (!diagnosis?.tempDiagnosisId) {
       console.error('진단 결과가 없습니다.')
       return
@@ -122,13 +181,19 @@ export default function DiagnosisResultPage() {
     setIsCompleteModalOpen(false)
   }
 
-  // 페이지 진입 시 진단 요청 및 비료 제품 조회
+  // 페이지 진입 시 진단 요청 또는 저장된 진단 기록 조회
   useEffect(() => {
-    if (!previewImage) return
-    const file = dataUrlToFile(previewImage, 'capture.jpg')
-    execute(file)
-    executeProducts()
-  }, [previewImage, execute, executeProducts])
+    if (diagnosisId) {
+      // 저장된 진단 기록 조회
+      executeSavedDiagnosis(diagnosisId)
+      executeProducts()
+    } else if (previewImage) {
+      // 새로운 진단 요청
+      const file = dataUrlToFile(previewImage, 'capture.jpg')
+      execute(file)
+      executeProducts()
+    }
+  }, [diagnosisId, previewImage, execute, executeSavedDiagnosis, executeProducts])
 
   // 최종 이미지 URL (진단 이미지 > 프리뷰 이미지 > null)
   const imageUrl = diagnosis?.imageUrl ?? previewImage ?? null
@@ -139,7 +204,6 @@ export default function DiagnosisResultPage() {
   // 로딩 상태일 때 전체 로딩 UI
   if (loading) {
     return (
-
       <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
         <H36 className='p-[15px] text-brand'>진단 결과</H36>
 
@@ -155,7 +219,6 @@ export default function DiagnosisResultPage() {
   // 에러 상태
   if (error) {
     return (
-
       <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
         <H36 className='p-[15px] text-brand'>진단 결과</H36>
 
@@ -174,7 +237,20 @@ export default function DiagnosisResultPage() {
       {/* 헤더 */}
       <div className='flex items-center justify-between p-[15px]'>
         <H36 className='text-brand'>진단 결과</H36>
-        <Button label='홈으로' size='small' variant='secondary' onClick={() => navigate('/')} />
+        <button
+          className='cursor-pointer'
+          onClick={() => {
+            if (from === 'preview') {
+              navigate(-1) // 프리뷰 화면으로 돌아가기
+            } else if (from === 'folder' && folderId) {
+              navigate(`/folder/${folderId}`) // 폴더 상세 페이지로 돌아가기
+            } else {
+              navigate('/') // 기본적으로 홈으로
+            }
+          }}
+        >
+          <Body20 className='text-gray-200'>이전</Body20>
+        </button>
       </div>
 
       {/* 사진 영역 */}
@@ -188,7 +264,13 @@ export default function DiagnosisResultPage() {
 
       {/* 결과 내용 영역 */}
       <div className='mt-[18px] px-[20px] flex-1 overflow-y-auto'>
-        {renderResultSection(caseType, diagnosis, handleOpenFolderModal, products, diagnosis?.crop)}
+        {renderResultSection(
+          caseType,
+          diagnosis,
+          diagnosisId ? null : handleOpenFolderModal, // 저장된 진단 기록은 저장 버튼 숨김
+          products,
+          diagnosis?.crop,
+        )}
       </div>
 
       {/* 폴더 선택 모달 */}

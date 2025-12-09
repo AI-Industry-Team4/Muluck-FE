@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import DiagnosisRecordCard from '../components/DiagnosisRecordCard'
 import Search from '@/shared/components/Search'
-import { H36 } from '@/shared/typography'
+import { Body20, H36 } from '@/shared/typography'
 import camera from '@/assets/icons/camera.svg'
 import { useNavigate, useParams } from 'react-router-dom'
 import useApi from '@/shared/hooks/useApi'
@@ -43,9 +43,12 @@ export default function FolderDetailPage() {
 
   return (
     <div className='flex flex-col'>
-      {/* 제목 */}
-      <div className='mt-10 ml-[21px] mb-[18px]'>
+      {/* 헤더 */}
+      <div className='flex items-center justify-between mt-10 ml-[21px] mb-[18px]'>
         <H36 className='text-brand text-start'>{folderName} 진단 기록</H36>
+        <button className='cursor-pointer mr-[21px]' onClick={() => navigate('/')}>
+          <Body20 className='text-gray-200'>홈으로</Body20>
+        </button>
       </div>
 
       {/* 검색창 */}
@@ -79,6 +82,7 @@ export default function FolderDetailPage() {
             percent={item.confidenceScore.replace('%', '')}
             folders={transformFoldersData(folderData)}
             selectedFolderId={id}
+            folderId={id}
             onConfirmMove={() => {}}
           />
         ))}
