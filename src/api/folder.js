@@ -38,3 +38,25 @@ export async function createUserFolders({ folderName }) {
     throw handleApiError(error)
   }
 }
+
+// 사용자 폴더 이동 API
+export async function updateUserFolders({ diagnosisId, targetFolderId }) {
+  try {
+    const res = await client.post(
+      `/folders/diagnoses/${diagnosisId}/move`,
+      {},
+      {
+        headers: {
+          'User-Id': env.userId,
+        },
+        params: {
+          targetFolderId,
+        },
+      },
+    )
+
+    return res.data.data
+  } catch (error) {
+    throw handleApiError(error)
+  }
+}
