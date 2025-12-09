@@ -1,8 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Body20 } from '@/shared/typography'
 import Button from '@/shared/components/Button'
-import useApi from '@/shared/hooks/useApi'
-import { analyzeDiagnosis } from '@/api/diagnosis'
 
 export default function PreviewPage() {
   const { state } = useLocation()
@@ -20,11 +18,11 @@ export default function PreviewPage() {
   return (
     <div className='flex flex-col'>
       <button className='text-start cursor-pointer' onClick={() => navigate(-1)}>
-        <Body20 className='mt-[40px] ml-[21px] mb-4 text-gray-200'>이전</Body20>
+        <Body20 className='mt-10 ml-[21px] mb-4 text-gray-200'>이전</Body20>
       </button>
 
       {/* 이미지 미리보기 */}
-      <div className='flex-1 flex h-[560px]'>
+      <div className='flex h-[70vh]'>
         {image ? (
           <img src={image} alt='촬영 이미지' className='w-full h-[560px] object-cover' />
         ) : (
@@ -32,8 +30,8 @@ export default function PreviewPage() {
         )}
       </div>
 
-      {/* 촬영 버튼 */}
-      <div className='flex flex-col mt-5 ml-[111px] gap-5'>
+      {/* 분석 버튼 */}
+      <div className='flex flex-col w-full justify-center items-center gap-5 z-10'>
         <Button
           size='large'
           variant='secondary'
