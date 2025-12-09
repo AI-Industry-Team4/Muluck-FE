@@ -49,7 +49,7 @@ export default function FolderDetailPage() {
       </div>
 
       {/* 검색창 */}
-      <div className='flex ml-[21px]'>
+      <div className='flex justify-center'>
         <Search
           label={'진단명으로 검색하기'}
           onChange={(value) => setSearchTerm(value)}
@@ -59,7 +59,7 @@ export default function FolderDetailPage() {
       </div>
 
       {/* 질병 카드 */}
-      <div className='mt-4 space-y-4 px-5 mb-50'>
+      <div className='flex flex-col items-center mt-4 space-y-4 px-5 mb-50'>
         {filteredDiagnoses.map((item) => (
           <DiagnosisRecordCard
             key={item.diagnosisId}
