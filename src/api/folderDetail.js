@@ -16,3 +16,18 @@ export async function getFoldersDetail({ folderId }) {
     throw handleApiError(error)
   }
 }
+
+// 진단 기록 단건 상세 조회 API
+export async function getDiagnosisDetail(diagnosisId) {
+  try {
+    const res = await client.get(`/folders/diagnoses/${diagnosisId}`, {
+      headers: {
+        'User-Id': env.userId,
+      },
+    })
+
+    return res.data.data
+  } catch (error) {
+    throw handleApiError(error)
+  }
+}
