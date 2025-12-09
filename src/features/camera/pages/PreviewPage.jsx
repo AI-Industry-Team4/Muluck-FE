@@ -13,7 +13,7 @@ export default function PreviewPage() {
   const handleAnalyze = () => {
     if (!image) return
     navigate('/diagnosis/result', {
-      state: { previewImage: image },
+      state: { previewImage: image, from: 'preview' },
     })
   }
 

@@ -88,6 +88,8 @@ export default function DiagnosisResultPage() {
 
   const previewImage = state?.previewImage || null
   const diagnosisId = state?.diagnosisId || null
+  const from = state?.from || null // 'preview' 또는 'folder'
+  const folderId = state?.folderId || null // 폴더 상세 페이지로 돌아가기 위한 ID
 
   // 진단 API 호출 (새로운 진단)
   const {
@@ -235,7 +237,20 @@ export default function DiagnosisResultPage() {
       {/* 헤더 */}
       <div className='flex items-center justify-between p-[15px]'>
         <H36 className='text-brand'>진단 결과</H36>
-        <Button label='홈으로' size='small' variant='secondary' onClick={() => navigate('/')} />
+        <button
+          className='cursor-pointer'
+          onClick={() => {
+            if (from === 'preview') {
+              navigate(-1) // 프리뷰 화면으로 돌아가기
+            } else if (from === 'folder' && folderId) {
+              navigate(`/folder/${folderId}`) // 폴더 상세 페이지로 돌아가기
+            } else {
+              navigate('/') // 기본적으로 홈으로
+            }
+          }}
+        >
+          <Body20 className='text-gray-200'>이전</Body20>
+        </button>
       </div>
 
       {/* 사진 영역 */}

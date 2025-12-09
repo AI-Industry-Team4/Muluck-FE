@@ -19,6 +19,7 @@ export default function DiagnosisRecordCard({
   folders = [],
   selectedFolderId,
   onConfirmMove,
+  folderId, // 폴더 상세 페이지로 돌아가기 위한 폴더 ID
 }) {
   const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(false)
@@ -47,7 +48,9 @@ export default function DiagnosisRecordCard({
     if (e.target.closest('button') || e.target.closest('[role="button"]')) {
       return
     }
-    navigate('/diagnosis/result', { state: { diagnosisId } })
+    navigate('/diagnosis/result', {
+      state: { diagnosisId, from: 'folder', folderId },
+    })
   }
 
   return (
