@@ -2,7 +2,7 @@ import search from '@/assets/icons/Search.svg'
 
 const Search = ({ label, onChange, onClick = () => {}, size = 'small' }) => {
   const sizeStyles = {
-    small: 'w-[298px]',
+    small: 'w-[80%]',
     large: 'w-[90%]', //352px
   }
 
