@@ -205,7 +205,17 @@ export default function DiagnosisResultPage() {
   if (loading) {
     return (
       <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
-        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+        <div className='flex items-center justify-between p-[15px]'>
+          <H36 className='text-brand'>진단 결과</H36>
+          <div className='flex items-center gap-4'>
+            <button className='cursor-pointer' onClick={() => navigate(-1)}>
+              <Body20 className='text-gray-200'>이전</Body20>
+            </button>
+            <button className='cursor-pointer' onClick={() => navigate('/')}>
+              <Body20 className='text-brand'>홈으로</Body20>
+            </button>
+          </div>
+        </div>
 
         <div className='flex-1 flex items-center justify-center'>
           <p className='text-gray-200 text-body-20'>
@@ -220,7 +230,17 @@ export default function DiagnosisResultPage() {
   if (error) {
     return (
       <div className='pt-[30px] pb-[52px] flex flex-col h-full'>
-        <H36 className='p-[15px] text-brand'>진단 결과</H36>
+        <div className='flex items-center justify-between p-[15px]'>
+          <H36 className='text-brand'>진단 결과</H36>
+          <div className='flex items-center gap-4'>
+            <button className='cursor-pointer' onClick={() => navigate(-1)}>
+              <Body20 className='text-gray-200'>이전</Body20>
+            </button>
+            <button className='cursor-pointer' onClick={() => navigate('/')}>
+              <Body20 className='text-brand'>홈으로</Body20>
+            </button>
+          </div>
+        </div>
 
         <div className='flex-1 flex flex-col items-center justify-center gap-4'>
           <p className='text-red-500 text-body-20'>
@@ -237,20 +257,25 @@ export default function DiagnosisResultPage() {
       {/* 헤더 */}
       <div className='flex items-center justify-between p-[15px]'>
         <H36 className='text-brand'>진단 결과</H36>
-        <button
-          className='cursor-pointer'
-          onClick={() => {
-            if (from === 'preview') {
-              navigate(-1) // 프리뷰 화면으로 돌아가기
-            } else if (from === 'folder' && folderId) {
-              navigate(`/folder/${folderId}`) // 폴더 상세 페이지로 돌아가기
-            } else {
-              navigate('/') // 기본적으로 홈으로
-            }
-          }}
-        >
-          <Body20 className='text-gray-200'>이전</Body20>
-        </button>
+        <div className='flex items-center gap-4'>
+          <button
+            className='cursor-pointer'
+            onClick={() => {
+              if (from === 'preview') {
+                navigate(-1) // 프리뷰 화면으로 돌아가기
+              } else if (from === 'folder' && folderId) {
+                navigate(`/folder/${folderId}`) // 폴더 상세 페이지로 돌아가기
+              } else {
+                navigate(-1) // 기본적으로 이전 화면으로
+              }
+            }}
+          >
+            <Body20 className='text-gray-200'>이전</Body20>
+          </button>
+          <button className='cursor-pointer' onClick={() => navigate('/')}>
+            <Body20 className='text-brand'>홈으로</Body20>
+          </button>
+        </div>
       </div>
 
       {/* 사진 영역 */}
