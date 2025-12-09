@@ -47,7 +47,7 @@ export default function HomePage() {
           <Head25>내 식물 상태를 정확히 분석해드립니다!</Head25>
         </div>
 
-        <img src={Banner} alt='Banner_main' className='absolute border-t-2 border-brand' />
+        <img src={Banner} alt='Banner_main' className='absolute border-t-2 border-brand w-full' />
         <div className='ml-[21px] mt-[100px] absolute z-10 flex gap-2.5'>
           {bannerButtons.slice(0, 3).map((folder) => (
             <PlantButton
@@ -69,7 +69,7 @@ export default function HomePage() {
       </div>
 
       {/* 검색바 영역 */}
-      <div className='flex mt-[220px] ml-[21px]'>
+      <div className='flex mt-[26vh] z-10 justify-center'>
         <Search
           label={'작물명으로 검색하기'}
           size='small'
@@ -84,7 +84,7 @@ export default function HomePage() {
       </div>
 
       {/* 폴더 영역 */}
-      <div className='ml-[21px] mt-[22px] flex flex-wrap gap-[11px] mb-50'>
+      <div className='justify-center mt-[22px] flex flex-wrap gap-[11px] mb-50'>
         {(filteredFolders ?? []).map((folder) => (
           <PlantFolder
             key={folder.folderId}
