@@ -217,10 +217,26 @@ export default function DiagnosisResultPage() {
           </div>
         </div>
 
-        <div className='flex-1 flex items-center justify-center'>
-          <p className='text-gray-200 text-body-20'>
-            식물 상태를 분석 중입니다… 잠시만 기다려 주세요 🌱
-          </p>
+        <div className='flex-1 flex flex-col items-center justify-center px-5 gap-6 md:gap-8'>
+          {/* 로딩 메시지 */}
+          <div className='flex flex-col items-center gap-3 md:gap-4'>
+            <p className='text-gray-200 text-body-20 md:text-head-25 text-center'>
+              식물 상태를 분석 중입니다…
+            </p>
+            <p className='text-gray-200 text-body-18 md:text-body-20 text-center'>
+              잠시만 기다려 주세요 🌱
+            </p>
+          </div>
+
+          {/* 로딩 스피너 */}
+          <div className='w-12 h-12 md:w-14 md:h-14 border-4 border-gray-100 border-t-brand rounded-full animate-spin' />
+
+          {/* 안내 멘트 */}
+          <div className='mt-4 px-4 py-3 md:px-5 md:py-3.5 bg-percent rounded-lg max-w-[400px] md:max-w-[500px] w-full'>
+            <p className='text-white text-sub-14 md:text-body-18 text-center leading-relaxed'>
+              AI 진단 결과는 전문가 의견과 다를 수 있습니다
+            </p>
+          </div>
         </div>
       </div>
     )
